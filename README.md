@@ -7,3 +7,12 @@ recommendations base only on selected categories of products, not on specific pr
 #Local setup
 
 set env variable SPARK_USER to current user
+
+#Algorithm selection
+1. Matrix factorization
+  PROS:
+  CONS:
+  - after new data comes in algorithm needs to recount values
+2. Nearest neighbours
+  PROS:
+  CONS:
