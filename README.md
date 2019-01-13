@@ -6,7 +6,8 @@ recommendations base only on selected categories of products, not on specific pr
 
 #Local setup
 
-set env variable SPARK_USER to current user
+On Windows machines
+set HADOOP_HOME env variable to directory with winutils binary 
 
 #Algorithm selection
 1. Matrix factorization
