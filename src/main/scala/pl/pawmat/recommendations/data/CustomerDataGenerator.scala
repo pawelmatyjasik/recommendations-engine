@@ -8,13 +8,13 @@ class CustomerDataGenerator() {
   def generateOneTeamFanData(teamId: Int, setSize: Int): Seq[CustomerBetData] = {
     val teamAsFirstParticipant = (1 to setSize / 3)
       .map(_ => CustomerBetData(
-        randomId(5), teamId, randomId(50), randomId(100), didBet = true))
+        randomId(5), teamId, randomId(50), randomId(100), 1))
     val teamAsSecondParticipant = (1 to setSize / 3)
       .map(_ => CustomerBetData(
-        randomId(5), randomId(50), teamId, randomId(100), didBet = true))
-    val randomTeams = (1 to setSize / 3)
+        randomId(5), randomId(50), teamId, randomId(100), 1))
+    val randomTeams = (1 to setSize.-(teamAsSecondParticipant.length).-(teamAsSecondParticipant.length))
       .map(_ =>
-        CustomerBetData(randomId(5), randomId(50), randomId(50), randomId(100), didBet = false))
+        CustomerBetData(randomId(5), randomId(50), randomId(50), randomId(100), 0))
 
     Random.shuffle(teamAsFirstParticipant ++ teamAsSecondParticipant ++ randomTeams)
   }

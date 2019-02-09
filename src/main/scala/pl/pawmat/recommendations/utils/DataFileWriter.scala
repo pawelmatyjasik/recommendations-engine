@@ -1,8 +1,8 @@
-package pl.pawmat.recommendations.data
+package pl.pawmat.recommendations.utils
 
 import java.io.{BufferedWriter, FileWriter, PrintWriter}
 
-private[data] class DataFileWriter {
+class DataFileWriter {
   var fw: FileWriter = _
   var bw: BufferedWriter = _
   var out: PrintWriter = _

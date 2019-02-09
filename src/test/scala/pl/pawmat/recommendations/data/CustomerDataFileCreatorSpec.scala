@@ -2,6 +2,7 @@ package pl.pawmat.recommendations.data
 
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{FlatSpec, Matchers}
+import pl.pawmat.recommendations.utils.DataFileWriter
 
 class CustomerDataFileCreatorSpec extends FlatSpec with Matchers with MockFactory {
 
@@ -12,13 +13,13 @@ class CustomerDataFileCreatorSpec extends FlatSpec with Matchers with MockFactor
     val fileCreator = new CustomerDataFileCreator(dataGenerator, fileWriter)
 
     inSequence {
-      fileWriter.init _ expects "CBFan.txt"
+      fileWriter.init _ expects "CustomerBettingHistory.csv"
       dataGenerator.generateOneTeamFanData _ expects(1, 150) returning Seq(
-        CustomerBetData(1, 2, 3, 4, didBet = true),
-        CustomerBetData(2, 3, 4, 5, didBet = false)
+        CustomerBetData(1, 2, 3, 4, 1),
+        CustomerBetData(2, 3, 4, 5, 0)
       )
-      fileWriter.writeLine _ expects "1,2,3,4,true"
-      fileWriter.writeLine _ expects "2,3,4,5,false"
+      fileWriter.writeLine _ expects "1,2,3,4,1"
+      fileWriter.writeLine _ expects "2,3,4,5,0"
       fileWriter.close _ expects()
     }
 

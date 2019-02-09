@@ -10,6 +10,6 @@ class ModelGenerator(sparkSession: SparkSession, classifier: DeepLearningClassif
       .option("header", "true")
       .load("training-data/basketball/CBFan.txt")
 
-    classifier.buildModel(data, sparkSession)
+    classifier.buildModel(data)
   }
 }

@@ -4,8 +4,10 @@ import org.apache.spark
 import org.apache.spark.ml.classification.MultilayerPerceptronClassificationModel
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.{SparkConf, SparkContext}
-import pl.pawmat.recommendations.data.{CustomerBetData, CustomerBetDataPrediction}
-import pl.pawmat.recommendations.model.{DeepLearningClassifier, ModelGenerator}
+import pl.pawmat.recommendations.data.{CustomerBetData, CustomerBetDataPrediction, CustomerDataGenerator}
+import pl.pawmat.recommendations.evaluation.DeepLearningModelParametersEvaluator
+import pl.pawmat.recommendations.model.{DeepLearningClassifier, DeepLearningModelEvaluator, ModelGenerator}
+import pl.pawmat.recommendations.utils.DataFileWriter
 
 object RecommendationsApp {
   def main(args: Array[String]): Unit = {
@@ -15,10 +17,14 @@ object RecommendationsApp {
 
     val sc = new SparkContext(conf)
 
-    val model = initModel()
-    predictBet(model)
+    startVerification()
     System.in.read()
     sc.stop()
+  }
+
+  def startVerification(): Unit = {
+    val deepLearningModelEvaluator = new DeepLearningModelEvaluator(new CustomerDataGenerator, sparkSession, new DeepLearningClassifier)
+    new DeepLearningModelParametersEvaluator(deepLearningModelEvaluator, new DataFileWriter).evaluateParams()
   }
 
   def initModel(): MultilayerPerceptronClassificationModel = {

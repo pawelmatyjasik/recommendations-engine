@@ -1,39 +1,42 @@
 package pl.pawmat.recommendations.model
 
-import org.apache.spark.ml.classification.{MultilayerPerceptronClassificationModel, MultilayerPerceptronClassifier, ProbabilisticClassificationModel}
+import org.apache.spark.ml.classification.{MultilayerPerceptronClassificationModel, MultilayerPerceptronClassifier}
 import org.apache.spark.ml.feature.VectorAssembler
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import org.apache.spark.sql.{DataFrame, Dataset}
 
 class DeepLearningClassifier() {
   private val ModelDirectoryName = "neural-network-model"
 
-  def buildModel(input: DataFrame, sparkSession: SparkSession): MultilayerPerceptronClassificationModel = {
-    // input layer of size 4 (features), two intermediate of size 5 and 4
-    // and output of size 2 (classes)
-    val networkLayers = Array[Int](4, 5, 4, 2)
+  def buildModel(input: DataFrame, intermediateLayers: Array[Int] = Array[Int](5, 4)): MultilayerPerceptronClassificationModel = {
+    val networkLayers = Array[Int](4) ++ intermediateLayers ++ Array[Int](2)
 
     val trainer = new MultilayerPerceptronClassifier()
       .setLayers(networkLayers)
+      .setStepSize(0.02)
       .setBlockSize(128)
       .setSeed(1234L)
       .setMaxIter(100)
 
-    val model = trainer.fit(assembleDataFromFile(input))
+    val model = trainer.fit(assembleData(input))
 
     model.write.overwrite.save(ModelDirectoryName)
 
     model
   }
 
+  def transform(model: MultilayerPerceptronClassificationModel, data: DataFrame) = {
+    model.transform(assembleData(data))
+  }
+
   def predict(input: DataFrame): DataFrame = {
     val model = MultilayerPerceptronClassificationModel.load(ModelDirectoryName)
-    model.transform(assembleDataFromFile(input))
+    model.transform(assembleData(input))
       .select("prediction", "probability")
   }
 
-  private def assembleDataFromFile(data: DataFrame): DataFrame = {
+  private def assembleData(data: DataFrame): DataFrame = {
     val assembler = new VectorAssembler()
-      .setInputCols(Array("league_id", "player_1", "player_2", "popularity"))
+      .setInputCols(Array("leagueId", "teamOneId", "teamTwoId", "popularity"))
       .setOutputCol("features")
 
     assembler.transform(data)

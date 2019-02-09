@@ -8,14 +8,14 @@ class CustomerDataGeneratorSpec extends FlatSpec with Matchers {
     val dataGenerator = new CustomerDataGenerator()
     val teamId = 3
     dataGenerator.generateOneTeamFanData(teamId, 150)
-      .count(betData => betData.teamOneId.equals(3)) should be > 50
+      .count(betData => betData.teamOneId.equals(teamId)) should be >= 50
   }
 
   "A dataset" should "have at least one third records with specified team as second participant" in {
     val dataGenerator = new CustomerDataGenerator()
     val teamId = 5
     dataGenerator.generateOneTeamFanData(teamId, 150)
-      .count(betData => betData.teamTwoId.equals(3)) should be > 50
+      .count(betData => betData.teamTwoId.equals(teamId)) should be >= 50
   }
 
   "A dataset" should "have specified size when divisible by 3" in {
