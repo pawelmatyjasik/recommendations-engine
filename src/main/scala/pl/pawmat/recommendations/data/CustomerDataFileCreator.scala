@@ -1,8 +1,10 @@
 package pl.pawmat.recommendations.data
 
 private[data] class CustomerDataFileCreator(customerDataGenerator: CustomerDataGenerator, dataFileWriter: DataFileWriter) {
+  val DataFileName = "CustomerBettingHistory.csv"
+
   def createOneTeamFanDataFile(): Unit = {
-    dataFileWriter.init("CBFan.txt")
+    dataFileWriter.init(DataFileName)
 
     try {
       customerDataGenerator
