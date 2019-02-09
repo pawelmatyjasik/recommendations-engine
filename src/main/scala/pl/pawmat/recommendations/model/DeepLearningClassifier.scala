@@ -9,7 +9,7 @@ class DeepLearningClassifier() {
 
   def buildModel(input: DataFrame, sparkSession: SparkSession): MultilayerPerceptronClassificationModel = {
     // input layer of size 4 (features), two intermediate of size 5 and 4
-    // and output of size 3 (classes)
+    // and output of size 2 (classes)
     val networkLayers = Array[Int](4, 5, 4, 2)
 
     val trainer = new MultilayerPerceptronClassifier()

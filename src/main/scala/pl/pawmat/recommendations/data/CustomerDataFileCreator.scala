@@ -1,6 +1,6 @@
 package pl.pawmat.recommendations.data
 
-class CustomerDataFileCreator(customerDataGenerator: CustomerDataGenerator, dataFileWriter: DataFileWriter) {
+private[data] class CustomerDataFileCreator(customerDataGenerator: CustomerDataGenerator, dataFileWriter: DataFileWriter) {
   def createOneTeamFanDataFile(): Unit = {
     dataFileWriter.init("CBFan.txt")
 
