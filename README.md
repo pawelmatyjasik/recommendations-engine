@@ -1,15 +1,16 @@
-#Goal
+# Goal #
 
-Recommendation service for system that offers products of various categories. 
-Products have defined lifecycle and expire after some point in time. Therefore 
-recommendations base only on selected categories of products, not on specific products.
+We have a system for betting on chess matches. Customers bet on specific matches and we gather information about their betting history. The goal is to make the best recommendations for the customers. I will try two approaches:
+* neural network,
+* matrix factorization,
+and compare them.
 
-#Local setup
+# Local setup #
 
 On Windows machines
 set HADOOP_HOME env variable to directory with winutils binary 
 
-#Algorithm selection
+# Algorithms description #
 1. Matrix factorization
   - after new data comes in algorithm needs to recount values
 2. Nearest neighbours
